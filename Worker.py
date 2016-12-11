@@ -61,7 +61,7 @@ class Worker:
             count += 1
         
         suite_time = self.get_suite_elapsed_time() * Worker.MICRO
-        string += "Total: {0} us".format( suite_time )
+        string += "Total of {0} tests run in {1} us".format( self.test_count, suite_time )
         return string
 
     '''
@@ -79,6 +79,8 @@ class Worker:
         for t in range( len( self.test_start_times ) ):
             
             # Assert 't' is an integer
+            if( not isinstance( t, int ) ):
+                raise ValueError( "t is not an int: {0}".format ( type(t) ) )
             
             test_elapsed_times.append( self.test_end_times[t] - self.test_start_times[t] )
     

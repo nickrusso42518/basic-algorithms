@@ -9,7 +9,7 @@ Description:
 import os
 import sys
 from Search import Search
-from random import randint
+from Sort import Sort
 
 def main( argv ):
     
@@ -19,17 +19,18 @@ def main( argv ):
         raise ValueError( "Invalid arguments: length or input file" )
     
     
-    search = Search(argv[1],Search.binary_search,4)
-    search.run_suite()
-    print(search)
+    #search = Search(argv[1],Search.binary_search,4)
+    #search.run_suite()
+    #print(search)
+    
+    sort = Sort(argv[1],Sort.sinking_sort)
+    sort.run_suite()
+    print(sort)
+    
+    sort = Sort(argv[1],Sort.bubble_sort)
+    sort.run_suite()
+    print(sort)
 
-    '''
-    for t in range(40):
-        string = ""
-        for i in range(20):
-            string += str(randint(-20,20)) + " "
-        print (string)
-    '''
 
 # Executation starts here
 main( sys.argv )
