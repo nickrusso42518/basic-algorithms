@@ -3,7 +3,9 @@
 '''
 File: run.py
 Author: Nicholas Russo
-Description: 
+Description: This file is used for testing and comparison of
+different search, sort, and other algorithms defined within
+this project.
 '''
 
 import os
@@ -19,9 +21,9 @@ def main( argv ):
         raise ValueError( "Invalid arguments: length or input file" )
     
     
-    #search = Search(argv[1],Search.binary_search,4)
-    #search.run_suite()
-    #print(search)
+    search = Search(argv[1],Search.linear_search,4)
+    search.run_suite()
+    print(search)
     
     sort = Sort(argv[1],Sort.sinking_sort)
     sort.run_suite()

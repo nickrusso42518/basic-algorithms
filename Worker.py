@@ -3,7 +3,12 @@
 '''
 File: Worker.py
 Author: Nicholas Russo
-Description: 
+Description: This base class is meant to be ABSTRACT and should
+not be instantiated directly. It provides a method for parsing
+input files and maintaining a list of jobs (each job could be 
+a list, a matrix, or anything else which represents input data).
+The class maintains several timers and pass/fail statistics which
+help for comparing algorithmic performance.
 '''
 
 import time
@@ -18,7 +23,7 @@ class Worker:
     '''
     
     '''
-    def __init__(self, path, ifile_type = LINEAR):
+    def __init__(self, path, work_method, ifile_type):
          
         # Assign variables as inputs are valid
         if( ifile_type == Worker.LINEAR ):
@@ -27,6 +32,7 @@ class Worker:
             parse_path = self._parse_graph_matrix
             
         self.work_list = parse_path( path )
+        self.set_work_method( work_method )
         self.clear_all_history()
         
     '''
@@ -40,8 +46,12 @@ class Worker:
         
     def clear_all_history(self):
         self.test_count = 0
+        self.pass_count = 0
         self.clear_time_history()
         self.result_list = list()
+        
+    def set_work_method(self, work_method):
+        self.work_method = work_method
         
     '''
     
@@ -53,15 +63,18 @@ class Worker:
     Test # time: 
     '''        
     def __str__(self):
-        string = ""
+        string = "Algorithm: {0}\n".format(self.work_method.__name__)
         count = 1
         times = self.get_test_elapsed_times()
         for i in range( len( times ) ):
-            string += "Test {0}: {1} in {2} us\n".format(count, self.result_list[i] != -1, times[i] * Worker.MICRO)
+            passed = self.result_list[i] != -1
+            string += "Test {0}: {1} in {2} us\n".format(count, passed, times[i] * Worker.MICRO)
             count += 1
+            if passed:
+                self.pass_count += 1
         
         suite_time = self.get_suite_elapsed_time() * Worker.MICRO
-        string += "Total of {0} tests run in {1} us".format( self.test_count, suite_time )
+        string += "Total of {0}/{1} tests passed in {2} us".format( self.pass_count, self.test_count, suite_time )
         return string
 
     '''
@@ -85,6 +98,15 @@ class Worker:
             test_elapsed_times.append( self.test_end_times[t] - self.test_start_times[t] )
     
         return test_elapsed_times
+        
+    def get_test_count(self):
+        return self.test_count
+        
+    def get_pass_count(self):
+        return self.pass_count
+        
+    def get_fail_count(self):
+        return self.test_count - self.pass_count
         
     '''
     
