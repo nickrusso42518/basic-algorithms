@@ -21,14 +21,20 @@ class Search(Worker):
     @staticmethod
     def linear_search( array, target ):
         
+        eprint("** starting linear_search **")
+        
         # Iterate over the list front to back
         for i in range(len(array)):
             
             # If we find the element, return the array index
             if( array[i] == target ):
+                eprint("found target at index {0}".format(i))
+                eprint("** ending linear_search **")
                 return i
         
         # Element not found, return -1
+        eprint("target not found, returning -1")
+        eprint("** ending linear_search **")
         return -1
     
     '''
@@ -45,27 +51,35 @@ class Search(Worker):
         # Need to initialize the right boundary, but only once
         #  Would have been cool to use "right=len(array)-1 in the method line
         #  but this technique is not supported
-        if( right == -1 ):
+        if( right == -1 ):       
+            eprint("** starting binary_search **")
             right = len(array) - 1
-        
+            
         # Compute the middle index by finding the midpoint between
         #  left and right limits, and removing any floating point   
         middle = int((left+right)/2)
+        eprint("invoked binary_search. l={0}, r={1}, m={2}".format(left, right, middle))
         
         # The element was not found; prevent infinite recursio
         if( left > right ):
+            eprint("base case; target not found, returning -1")
+            eprint("** ending binary_search **")
             return -1
             
         # If array[middle] is less than the target, go right
         elif( array[middle] < target ):
+            eprint("move right; a[m] ({0}) < t ({1})".format(array[middle], target))
             return Search.binary_search( array, target, middle + 1, right)
             
         # If array[middle] is greater than the target, go left
         elif( array[middle] > target ):
+            eprint("move left; a[m] ({0}) > t ({1})".format(array[middle], target))
             return Search.binary_search( array, target, left, middle - 1)
             
         # We must have found the proper value
         else:
+            eprint( "found target at index {0}".format( middle ))
+            eprint("** ending binary_search **")
             return middle 
     
     '''

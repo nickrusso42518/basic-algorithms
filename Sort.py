@@ -99,11 +99,19 @@ class Sort(Worker):
         eprint("** ending bubble_sort **")  
         return sarray
     
+    '''
+    This algorithm sorts "array" by finding the lowest value in the array
+    and swapping it with the first index of the "unsorted list". This
+    unsorted list starts at the left and slowly shrinks as minimum
+    elements are selected and swapped to the front. The sorted list grows
+    from left to right commensurate with the shrinking of the unsorted list.
+    '''
     @staticmethod
     def selection_sort( array ):
         
         # Copy the array into a new array so the original values dont change
         sarray = list(array)
+        eprint("** starting selection_sort **") 
         
         # We can stop short since we are searching for the minimum
         #  each time. By the time we hit the n-1 element, the
@@ -113,30 +121,42 @@ class Sort(Worker):
             # Define the index which identifies the current
             #  minimum number. Assume it starts at i.
             imin = i
+            eprint("for i=0 to {0}: i={1} imin={2}".format(len(sarray), i, imin )) 
             
             # Check everything after i for smaller values
             for j in range (i+1, len(sarray)):
+                eprint("for j={0} to {1}: j={2} imin={3}".format(i+1, len(sarray), j, imin )) 
                 
                 # If we find an index representing a smaller
                 #  element, store the new minimum value
                 if ( sarray[j] < sarray[imin] ):
                     imin = j
+                    eprint("imin=j={0}".format(j))
                     
             # At this point, imin is the minimum unsorted value
             #  Swap the value at index i and imin
             if( imin != i):
                 sarray[i], sarray[imin] = sarray[imin], sarray[i]
+                eprint("select {0} and swap with {1}".format(sarray[imin], sarray[i]))
         
+        eprint("** ending selection_sort **") 
         return sarray
-        
+    
+    '''
+    This algorithm sorts "array" by iterating through the array and
+    inserting each element where it should go. When an element is inserted
+    in front of several elements, the inner loop shifts values to the right.
+    '''    
     @staticmethod
     def insertion_sort( array ):
         
         # Copy the array into a new array so the original values dont change
         sarray = list(array)
+        eprint("** starting insertion_sort **") 
         
         # Begin iterating through the array
         for i in range(len(sarray)):
+            eprint("for i=0 to {0}: i={1}".format( len(sarray), i)) 
             
             # Set a marker equal to the current iterator
             j = i
@@ -146,18 +166,22 @@ class Sort(Worker):
             #  the elements are out of place. Iteratively swap
             # the values
             while( j > 0 and sarray[j-1] > sarray[j]):
+                eprint("insert {0} by swapping with {1}. j={2}".format( sarray[j], sarray[j-1], j) )
                 sarray[j-1], sarray[j] = sarray[j], sarray[j-1]
                 j -= 1
         
+        eprint("** ending insertion_sort **") 
         return sarray
         
     @staticmethod
     def merge_sort( array ):
-        return -1
+        # TODO
+        raise NotImplementedError()
         
     @staticmethod
     def quick_sort( array ):
-        return -1
+        # TODO
+        raise NotImplementedError()
     
     '''
     Constructor is a pass-through for Worker. No additional
