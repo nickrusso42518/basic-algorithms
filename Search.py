@@ -9,6 +9,7 @@ be passed to the constructor for execution during a test series.
 '''
 
 from Worker import Worker
+eprint = Worker.eprint
 
 class Search(Worker):
    

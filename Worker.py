@@ -12,6 +12,9 @@ help for comparing algorithmic performance.
 '''
 
 import time
+import sys
+
+DEBUG_TOGGLE = True
 
 class Worker:
     
@@ -19,6 +22,11 @@ class Worker:
     MILLI = 1000
     LINEAR = 1
     GRAPH_MATRIX = 2
+    
+    @staticmethod
+    def eprint( *args, **kwargs):
+        if DEBUG_TOGGLE:
+            print( *args, file=sys.stderr, **kwargs )
     
     '''
     

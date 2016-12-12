@@ -20,18 +20,18 @@ def main( argv ):
     if( len( argv ) != 2 or not os.path.isfile( argv[1] ) ):
         raise ValueError( "Invalid arguments: length or input file" )
     
-    
-    search = Search(argv[1],Search.linear_search,4)
-    search.run_suite()
-    print(search)
-    
-    sort = Sort(argv[1],Sort.sinking_sort)
-    sort.run_suite()
-    print(sort)
-    
-    sort = Sort(argv[1],Sort.bubble_sort)
-    sort.run_suite()
-    print(sort)
+    sort_alg_list = [
+        Sort.selection_sort,
+        Sort.insertion_sort,
+        Sort.sinking_sort,
+        Sort.bubble_sort
+        ]
+        
+    for sort_alg in sort_alg_list:
+        sort = Sort(argv[1], sort_alg)
+        sort.run_suite()
+        print(sort)
+        print()
 
 
 # Executation starts here
