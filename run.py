@@ -21,6 +21,8 @@ def main( argv ):
         raise ValueError( "Invalid arguments: length or input file" )
     
     sort_alg_list = [
+        #Sort.quick_sort,
+        #Sort.merge_sort,
         Sort.selection_sort,
         Sort.insertion_sort,
         Sort.sinking_sort,
