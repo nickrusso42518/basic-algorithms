@@ -22,11 +22,11 @@ def main( argv ):
     
     sort_alg_list = [
         #Sort.quick_sort,
-        #Sort.merge_sort,
+        Sort.merge_sort,
         Sort.selection_sort,
         Sort.insertion_sort,
         Sort.sinking_sort,
-        Sort.bubble_sort
+        Sort.bubble_sort,
         ]
         
     for sort_alg in sort_alg_list:

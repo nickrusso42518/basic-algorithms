@@ -18,16 +18,11 @@ class Sort(Worker):
     number is moved as far right as possible. Other numbers will be swapped
     along the way too.
     Characteristics:
-        time complexity: best O(n^2), average O(n^2), worst O(n^2)
-        space complexity: O(1)
+        time complexity: best Ω(n), average Θ(n^2), worst O(n^2)
+        space complexity: constant (sort in place), no recursion
     '''
     @staticmethod
     def sinking_sort( array ):
-        
-        # Copy the array into a new array so the original values dont change
-        sarray = list(array)
-        eprint("** starting sinking_sort **")
-        eprint("initial array: {0}".format(sarray))
         
         # Needed to initialize the first iteration
         swapped = True
@@ -40,16 +35,16 @@ class Sort(Worker):
             eprint("not done swapping")
             
             # Start at the second place in the array
-            for i in range ( 1, len(sarray) ):
-                eprint ("for i=1 to {0} i: {1}".format (len(sarray)-1, i ))
+            for i in range ( 1, len(array) ):
+                eprint ("for i=1 to {0} i: {1}".format (len(array)-1, i ))
                 
                 # Test if the previous element is greater than the current
-                if( sarray[i-1] > sarray[i] ):
-                    eprint ("previous {0} > current {1}; swap".format(sarray[i-1], sarray[i]))
+                if( array[i-1] > array[i] ):
+                    eprint ("previous {0} > current {1}; swap".format(array[i-1], array[i]))
                     
                     # It was; swap the entries to sink big numbers
-                    sarray[i], sarray[i-1] = sarray[i-1], sarray[i]
-                    eprint("after swap: {0}".format( sarray ) )
+                    array[i], array[i-1] = array[i-1], array[i]
+                    eprint("after swap: {0}".format( array ) )
                     
                     # Record that a swap occured to indicate that
                     #  we are not done. Note that this sort requires
@@ -57,26 +52,19 @@ class Sort(Worker):
                     #  is guaranteed to be true when swapped is false.
                     swapped = True
         
-        # Return the newly-sorted array  
-        eprint("sorted array: {0}".format(sarray)) 
-        eprint("** ending sinking_sort **")      
-        return sarray
+        # Return the newly-sorted array       
+        return array
     
     '''
     This algorithm sorts "array" by bubbling small numbers to the left (top)
     by swapping adjacent elements. The logic is identical to sinking_sort()
     but works by moving smaller elements to the left (reverse logic).
     Characteristics:
-        time complexity: best O(n^2), average O(n^2), worst O(n^2)
-        space complexity: O(1)
+        time complexity: best Ω(n), average Θ(n^2), worst O(n^2)
+        space complexity: constant (sort in place), no recursion
     '''   
     @staticmethod
     def bubble_sort( array ):
-        
-        # Copy the array into a new array so the original values dont change
-        sarray = list(array)
-        eprint("** starting bubble_sort **")
-        eprint("initial array: {0}".format(sarray))  
         
         # Needed to initialize the first iteration
         swapped = True
@@ -89,16 +77,16 @@ class Sort(Worker):
             eprint("not done swapping")
             
             # Start at the first place in the array and go to the penultimate place
-            for i in range ( len(sarray) - 1 ):
-                eprint ("for i=0 to {0} i: {1}".format (len(sarray)-2, i ))
+            for i in range ( len(array) - 1 ):
+                eprint ("for i=0 to {0} i: {1}".format (len(array)-2, i ))
                 
                 # Test if the next field is less than the current
-                if( sarray[i+1] < sarray[i] ):
-                    eprint ("next {0} < current {1}; swap".format(sarray[i+1], sarray[i]))
+                if( array[i+1] < array[i] ):
+                    eprint ("next {0} < current {1}; swap".format(array[i+1], array[i]))
                     
                     # It was; swap the entries to bubble up small numbers
-                    sarray[i], sarray[i+1] = sarray[i+1], sarray[i]
-                    eprint("after swap: {0}".format( sarray ) )
+                    array[i], array[i+1] = array[i+1], array[i]
+                    eprint("after swap: {0}".format( array ) )
                     
                     # Record that a swap occured to indicate that
                     #  we are not done. Note that this sort requires
@@ -107,9 +95,7 @@ class Sort(Worker):
                     swapped = True
 
         # Return the newly-sorted array
-        eprint("sorted array: {0}".format(sarray))  
-        eprint("** ending bubble_sort **")  
-        return sarray
+        return array
     
     '''
     This algorithm sorts "array" by finding the lowest value in the array
@@ -118,64 +104,56 @@ class Sort(Worker):
     elements are selected and swapped to the front. The sorted list grows
     from left to right commensurate with the shrinking of the unsorted list.
     Characteristics:
-        time complexity: best O(n^2), average O(n^2), worst O(n^2)
-        space complexity: O(1)
+        time complexity: best Ω(n^2), average Θ(n^2), worst O(n^2)
+        space complexity: constant (sort in place), no recursion
     '''
     @staticmethod
     def selection_sort( array ):
         
-        # Copy the array into a new array so the original values dont change
-        sarray = list(array)
-        eprint("** starting selection_sort **")
-        eprint("initial array: {0}".format(sarray))  
-        
         # We can stop short since we are searching for the minimum
         #  each time. By the time we hit the n-1 element, the
         #  array is already sorted.
-        for i in range( len(sarray) - 1 ):
+        for i in range( len(array) - 1 ):
             
             # Define the index which identifies the current
             #  minimum number. Assume it starts at i.
             imin = i
-            eprint("for i=0 to {0}: i={1} imin={2}".format(len(sarray), i, imin )) 
+            eprint("for i=0 to {0}: i={1} imin={2}".format(len(array), i, imin )) 
             
             # Check everything after i for smaller values
-            for j in range (i+1, len(sarray)):
-                eprint("for j={0} to {1}: j={2} imin={3}".format(i+1, len(sarray), j, imin )) 
+            for j in range (i+1, len(array)):
+                eprint("for j={0} to {1}: j={2} imin={3}".format(i+1, len(array), j, imin )) 
                 
                 # If we find an index representing a smaller
                 #  element, store the new minimum value
-                if ( sarray[j] < sarray[imin] ):
+                if ( array[j] < array[imin] ):
                     imin = j
                     eprint("imin=j={0}".format(j))
                     
             # At this point, imin is the minimum unsorted value
             #  Swap the value at index i and imin
             if( imin != i):
-                sarray[i], sarray[imin] = sarray[imin], sarray[i]
-                eprint("select {0} and swap with {1}".format(sarray[imin], sarray[i]))
-                eprint("after swap: {0}".format( sarray ) )
+                array[i], array[imin] = array[imin], array[i]
+                eprint("select {0} and swap with {1}".format(array[imin], array[i]))
+                eprint("after swap: {0}".format( array ) )
         
-        eprint("sorted array: {0}".format(sarray)) 
-        eprint("** ending selection_sort **") 
-        return sarray
+        # Return the newly-sorted array 
+        return array
     
     '''
     This algorithm sorts "array" by iterating through the array and
     inserting each element where it should go. When an element is inserted
     in front of several elements, the inner loop shifts values to the right.
+    Characteristics:
+        time complexity: best Ω(n), average Θ(n^2), worst O(n^2)
+        space complexity: constant (sort in place), no recursion
     '''    
     @staticmethod
     def insertion_sort( array ):
-        
-        # Copy the array into a new array so the original values dont change
-        sarray = list(array)
-        eprint("** starting insertion_sort **")
-        eprint("initial array: {0}".format(sarray))  
-        
+
         # Begin iterating through the array
-        for i in range(len(sarray)):
-            eprint("for i=0 to {0}: i={1}".format( len(sarray), i)) 
+        for i in range(len(array)):
+            eprint("for i=0 to {0}: i={1}".format( len(array), i)) 
             
             # Set a marker equal to the current iterator
             j = i
@@ -184,21 +162,109 @@ class Sort(Worker):
             #  previous value is greater than the current value,
             #  the elements are out of place. Iteratively swap
             # the values
-            while( j > 0 and sarray[j-1] > sarray[j]):
-                eprint("insert {0} by swapping with {1}. j={2}".format( sarray[j], sarray[j-1], j) )
-                sarray[j-1], sarray[j] = sarray[j], sarray[j-1]
-                eprint("after swap: {0}".format( sarray ) )
+            while( j > 0 and array[j-1] > array[j]):
+                eprint("insert {0} by swapping with {1}. j={2}".format( array[j], array[j-1], j) )
+                array[j-1], array[j] = array[j], array[j-1]
+                eprint("after swap: {0}".format( array ) )
                 j -= 1
         
-        eprint("sorted array: {0}".format(sarray)) 
-        eprint("** ending insertion_sort **") 
-        return sarray
-        
+        # Return the newly-sorted array 
+        return array
+    
+    '''
+    This algorithm sorts "array" by recursively halving the array. Each
+    half is split down to a single element (which is sorted by definition).
+    The individual sorted lists are merged back as the recursion stack
+    unwinds which create longer sorted lists. This algorithm is guaranteed
+    to be fast but does not sort in-place, which requires more memory.
+    Characteristics:
+        time complexity: best Ω(nlogn), average Θ(nlogn), worst O(nlogn)
+        space complexity: linear (copy subarrays), log(n) recursion stack
+    '''    
     @staticmethod
     def merge_sort( array ):
-        # TODO
-        raise NotImplementedError()
+        an = len( array )
+
+        if( an < 2 ):
+            eprint( "base case: {0} < 2".format(an))
+            return
+
+        # Populate left array from 0 to the midpoint (not inclusive)
+        #  In odd-length arrays, left will always be smaller
+        left = [array[i] for i in range(0,int(an/2))]
+        eprint ("left", left)
         
+        # Populate right array from the midpoint (inclusive) to the end
+        right = [array[i] for i in range(int(an/2),an)]
+        eprint ("right", right)
+
+        # sanity check, lenl + lenr == lena
+        if( len(left) + len(right) != len(array) ):
+            raise ValueError("sanity failure: {0} + {1} != {2}".format( 
+            len(left), len(right), len(array)))
+
+        # Sort the left and right sides independently
+        #  The left sub array will be completely sorted before
+        #  the right sub array even begins to be split.
+        eprint ("Recursive left to merge_sort({0})".format(left))
+        Sort.merge_sort(left)
+        
+        eprint ("Recursive right to merge_sort({0})".format(right))
+        Sort.merge_sort(right)
+        
+        # Merge the two halves back into the higher-level array
+        #  Method returns null; merges arrays in-place into "array"
+        Sort._merge_fast(array, left, right)
+
+        # Return the newly-sorted array 
+        return array
+        
+    @staticmethod
+    def _merge_fast(array,left,right):
+        eprint("_merge_fast begin: {0} and {1}".format( left, right ))
+        
+        # Initiate three iterators for each array
+        ai, li, ri = 0, 0, 0
+        
+        # Store left and right array lengths
+        ln = len(left)
+        rn = len(right)
+        
+        # While there are still comparisons to be made
+        while ( li < ln and ri < rn ):
+        
+            eprint("Testing {0} < {1}".format(left[li], right[ri]))
+            if(left[li] < right[ri]):
+                eprint(" true; choose {0}".format(left[li]))
+                array[ai] = left[li]
+                li += 1
+            else:
+                eprint(" false; choose {0}".format(right[ri]))
+                array[ai] = right[ri]
+                ri += 1
+            ai += 1
+        while (li < ln):
+            eprint("add remaining left value: {0}".format(left[li]))
+            array[ai] = left[li]
+            li += 1
+            ai += 1
+        while (ri < rn):
+            eprint("add remaining right value: {0}".format(right[ri]))
+            array[ai] = right[ri]
+            ri += 1
+            ai += 1
+            
+        eprint("_merge_fast complete: {0}".format(array))
+    
+    """
+    This technique selects the last element in the array as a "pivot"
+    value, then determines which elements are less than or greater than
+    the pivot value. These sublights are recursively sorted in similar
+    fashion. TODO clean up description once implemented!
+    Characteristics:
+        time complexity: best Ω(nlogn), average Θ(nlogn), worst O(n^2)
+        space complexity: constant (sort in place), log(n) recursion stack
+    """    
     @staticmethod
     def quick_sort( array ):
         # TODO
@@ -218,4 +284,12 @@ class Sort(Worker):
     def _run_test(self, array):
         if ( array == None ):
             return -1
-        return self.work_method( array )
+            
+        eprint("** starting {0} **".format(self.work_method.__name__))
+        eprint("initial array: {0}".format(array))  
+          
+        result = self.work_method( array )
+        
+        eprint("sorted array: {0}".format(result)) 
+        eprint("** ending {0} **".format(self.work_method.__name__))
+        return result

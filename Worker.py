@@ -14,7 +14,7 @@ help for comparing algorithmic performance.
 import time
 import sys
 
-DEBUG_TOGGLE = True
+DEBUG_TOGGLE = False
 
 class Worker:
     
@@ -160,10 +160,19 @@ class Worker:
         self.test_count = 0
         self.suite_start_time = time.time()
         for array in self.work_list:
+            
+            # Copy the array so that the algorithms don't have to
+            #  This is performed before the timer starts
+            copy = list( array )
+            
+            # Start timer and test
             self.test_start_times.append( time.time() )
-            self.result_list.append( self._run_test( array ) )
+            self.result_list.append( self._run_test( copy ) )
+            
+            # Stop timer and increment test count
             self.test_end_times.append( time.time() )
             self.test_count += 1
+            
         self.suite_end_time = time.time()
         
     '''
