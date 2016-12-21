@@ -214,13 +214,20 @@ class Sort(Worker):
         
         # Merge the two halves back into the higher-level array
         #  Method returns null; merges arrays in-place into "array"
-        Sort._merge_fast(array, left, right)
+        Sort._merge(array, left, right)
 
         # Return the newly-sorted array 
         return array
-        
+    
+    """
+    This method merges left and right sub arrays into the main
+    array. Iteration begins at the beginning and compares the lowest
+    values of left vs right, then adds the lowest into the main
+    array. This process is impossible to perform without auxiliary
+    arrays, which is why merge sort requires more memory than others.
+    """    
     @staticmethod
-    def _merge_fast(array,left,right):
+    def _merge(array, left, right):
         eprint("_merge_fast begin: {0} and {1}".format( left, right ))
         
         # Initiate three iterators for each array
@@ -260,15 +267,75 @@ class Sort(Worker):
     This technique selects the last element in the array as a "pivot"
     value, then determines which elements are less than or greater than
     the pivot value. These sublights are recursively sorted in similar
-    fashion. TODO clean up description once implemented!
+    fashion (select a pivot, partition the sublist, etc). The base case
+    occurs when the list has only one element, which means that start
+    index is greater or equal to the end index.
     Characteristics:
         time complexity: best Ω(nlogn), average Θ(nlogn), worst O(n^2)
         space complexity: constant (sort in place), log(n) recursion stack
     """    
     @staticmethod
-    def quick_sort( array ):
-        # TODO
-        raise NotImplementedError()
+    def quick_sort( array, start=0, end=-1 ):
+        
+        # Used to initialize "end" only once
+        if (end == -1 ):
+            end = len(array)-1
+        
+        # If start comes before end, we aren't done    
+        if( start < end ):
+            part = Sort._partition( array, start, end )
+            eprint ("Recursive left with indices {0},{1}".format(start,part-1))
+            Sort.quick_sort( array, start, part - 1 )
+            eprint ("Recursive right with indices {0},{1}".format(part+1,end))
+            Sort.quick_sort( array, part + 1, end )
+        
+        # Return the newly-sorted array     
+        return array
+    
+    """
+    This method takes the original array, along with start/end indices for
+    framing purposes, then partitions that subarray. The process of partitioning
+    first includes selecting a pivot (the last value is chosen). Then, each
+    element in the array is tested against the pivot and moved to the left if
+    it is less or equal to the pivot. This is done by swapping small values with
+    the value at the partition index, which starts at the beginning of the subarray.
+    Last, the pivot is swapped to the partition index; this has the nice side effect
+    of being the final location of the pivot value.
+    """        
+    @staticmethod
+    def _partition( array, start, end ):
+        # First, choose the pivot (last value)
+        
+        eprint( "_partition {0} s={1} e={2}".format(array[start:end+1], start, end))
+        
+        # Initialize the pivot value and partition index
+        pivot = array[end]
+        part = start
+        
+        # Iterate over elements in the subarray
+        for i in range(start, end):
+            eprint("testing if {0} left of {1}".format(array[i], pivot))
+            
+            # Test for values that belong to the left of the pivot
+            if( array[i] <= pivot ):
+                
+                # Swap the elements at the partition index with the current iterator
+                eprint( " true, swap {0} and {1}".format(array[i], array[part]))
+                array[i], array[part] = array[part], array[i]
+                
+                # Swap happened, so move the partition index to the right
+                #  to set up for the next swap operation
+                part += 1
+                eprint( " after swap: {0}, part={1}".format(array,part))
+        
+        # The value at the current iterator is known to be greater than the pivot,
+        #  so perform this final swap. This places the pivot in its final location.
+        eprint ("final partition step; swap {0} and {1}".format(array[end], array[part]))  
+        array[end], array[part] = array[part], array[end]
+        eprint( "after swap: {0}, part={1}".format(array,part))
+        
+        # Return the partition index. quick_sort() needs this for recursive calls
+        return part
     
     '''
     Constructor is a pass-through for Worker. No additional
@@ -283,7 +350,7 @@ class Sort(Worker):
     ''' 
     def _run_test(self, array):
         if ( array == None ):
-            return -1
+            raise ValueError ("Sanity failure: array was None")
             
         eprint("** starting {0} **".format(self.work_method.__name__))
         eprint("initial array: {0}".format(array))  

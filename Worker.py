@@ -14,7 +14,7 @@ help for comparing algorithmic performance.
 import time
 import sys
 
-DEBUG_TOGGLE = False
+DEBUG_TOGGLE = True
 
 class Worker:
     
