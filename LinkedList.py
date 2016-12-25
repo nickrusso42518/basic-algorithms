@@ -30,33 +30,34 @@ class LinkedList:
             return
         
         # Create the first Node and assign the head pointer to it
-        self.head = Node(datalist[0])
-        self.tail = self.head
+        if isinstance( datalist[0], Node ):
+            self.head = datalist[0]
+        else:   
+            self.head = Node(datalist[0])
         self.size = 1
         
-        # Start iterating at the head
-        cur = self.head
+        # Start iterating at the head using the tail as iterator
+        self.tail = self.head
         for i in range(len(datalist)-1):
             
             # Create a new node and add it to the list
-            new_node = Node(datalist[i+1])
-            cur.set_next( new_node )
+            new_node = None
+            if isinstance( datalist[i+1], Node ):
+                new_node = datalist[i+1]
+            else:
+                new_node = Node(datalist[i+1])
+                
+            self.tail.set_next( new_node )
             
             # Advance the pointer
-            cur = cur.get_next()
+            self.tail = self.tail.get_next()
             
-            # Keep updating the tail (not the head) and the size
-            self.tail = cur
+            # Keep updating the size
             self.size += 1
             
+        
     def clone(self):
-        cur = self.get_head()
-        datalist = list()
-        while cur:
-            datalist.append( cur.get_data() )
-            cur = cur.get_next()
-            
-        return LinkedList(datalist)
+        return LinkedList(*self.make_list())
             
     def __str__(self):
         cur = self.get_head()
@@ -234,8 +235,9 @@ def main():
     print (ll3)
     print (id(ll),id(ll2),id(ll3))
     
-    ll4 = ll1.clone()
-    #print (ll1, ll4)
-    #print( id(ll1), id(ll4))
+    ll4 = ll.clone()
+    print (ll)
+    print (ll4)
+    print( id(ll1), id(ll4))
     
 main()
